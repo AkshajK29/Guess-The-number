@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guess the Number</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Guess the Number!</h1>
+    <p>I'm thinking of a number between 1 and 100.</p>
+
+    <label for="guessInput">Enter your guess:</label> <input type="number" id="guessInput" min="1" max="100">
+    <button onclick="checkGuess()">Submit Guess</button>
+
+    <div id="feedback"></div>
+    <button id="playAgainButton" onclick="playAgain()" style="display: none;">Play Again</button>
+
+    <script>
+        let secretNumber = Math.floor(Math.random() * 100) + 1;
+        let numGuesses = 0;
+        let guessInput = document.getElementById("guessInput");
+
+        function checkGuess() {
+            let userGuess = parseInt(guessInput.value);
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                document.getElementById("feedback").textContent = "Please enter a valid number between 1 and 100.";
+                return;
+            }
+
+            numGuesses++;
+
+            let feedbackDiv = document.getElementById("feedback");
+            let playAgainButton = document.getElementById("playAgainButton");
+
+            if (userGuess === secretNumber) {
+                feedbackDiv.textContent = "You got it in " + numGuesses + " tries! The number was " + secretNumber;
+                playAgainButton.style.display = "block";
+                guessInput.disabled = true;
+            } else if (userGuess < secretNumber) {
+                feedbackDiv.textContent = "Too low!";
+            } else {
+                feedbackDiv.textContent = "Too high!";
+            }
+            guessInput.value = "";
+            guessInput.focus();
+        }
+
+        function playAgain() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            numGuesses = 0;
+            guessInput.value = "";
+
+            // Declare feedbackDiv here!
+            let feedbackDiv = document.getElementById("feedback");  //This was missing
+            feedbackDiv.textContent = "";
+
+            let playAgainButton = document.getElementById("playAgainButton");
+            playAgainButton.style.display = "none";
+            guessInput.disabled = false;
+            guessInput.focus();
+        }
+
+        guessInput.focus();
+    </script>
+</body>
+</html>
